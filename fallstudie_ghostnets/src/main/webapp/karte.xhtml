@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:f="http://xmlns.jcp.org/jsf/core">
+<h:head>
+    <title>Geisternetze Karte</title>
+    <style>
+        body {
+    background-color: #e0f7fa; 
+    font-family: Arial, sans-serif;
+    color: #333;
+    margin: 0;
+    padding: 0;
+}
+        
+
+        /* Layout-Container für Formular und Karte */
+        .container {
+            display: flex;
+            max-width: 1200px;
+            margin: 20px auto;
+            gap: 20px;
+            padding: 10px;
+        }
+
+        /* Formularbereich Styling */
+        .form-section {
+            width: 30%;
+            background-color: #ffffff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+		
+		 .ui-inputfield {
+        width: 200px; /* Feste Breite für alle Eingabefelder */
+        max-width: 100%; /* Maximal 100% Breite des Containers */
+    }
+
+        
+        /* Button Styling */
+        .form-section .ui-button {
+            background-color: #007bff;
+            color: #fff;
+            padding: 8px 20px;
+            font-size: 14px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+            width: 100%;
+            margin-top: 15px;
+        }
+
+        .form-section .ui-button:hover {
+            background-color: #0056b3;
+        }
+
+        /* Kartenbereich Styling */
+        .map-section {
+            width: 70%;
+            border: 1px solid #007bff;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        /* Growl Styling */
+        .ui-growl {
+            width: 20%;
+            margin-top: 10px;
+        }
+    </style>
+</h:head>
+
+<h:body>
+    <div class="container">
+        <!-- Formularbereich -->
+        <div class="form-section">
+	<h:form id="form">
+		<p:panelGrid columns="2" style="margin-top:20px;"
+			columnClasses="label,value">
+			<h:outputLabel for="latitude" value="Breite:" />
+			<p:inputNumber id="latitude" value="#{ghostnetBean.ghostnet.breite}"
+				required="true" minValue="-90" maxValue="90"
+				requiredMessage="Bitte geben Sie einen Breitengrad zwischen -90 und 90 an."
+				validatorMessage="Ungültige Eingabe für Breitengrad." widgetVar="latitudeInput" 
+				decimalPlaces="6">
+				<p:ajax event="blur" process="@this" />
+			</p:inputNumber>
+
+
+			<h:outputLabel for="longitude" value="Länge:" />
+			<p:inputNumber id="longitude" value="#{ghostnetBean.ghostnet.laenge}"
+				required="true" minValue="-180" maxValue="180"
+				requiredMessage="Bitte geben Sie einen Längengrad zwischen -180 und 180 an."
+				validatorMessage="Ungültige Eingabe für Längengrad." widgetVar="longitudeInput"
+				decimalPlaces="6">
+				<p:ajax event="blur" process="@this" />
+			</p:inputNumber>
+				
+
+			<h:outputLabel for="size" value="Größe in m²:" />
+			<p:inputNumber id="size" value="#{ghostnetBean.ghostnet.size}"
+				required="true">
+				<f:validateLongRange minimum="1" maximum="9000" />
+			</p:inputNumber>
+
+			<h:outputLabel for="sightingDate" value="Sichtungsdatum:" />
+			<p:calendar id="sightingDate"
+				value="#{ghostnetBean.ghostnet.sichtungDatum}" required="true" />
+
+			<h:outputLabel for="status" value="Status:" />
+			<p:selectOneMenu id="status" value="#{ghostnetBean.ghostnet.status}"
+				required="true">
+				<f:selectItem itemLabel="Bitte wählen" itemValue="#{null}" />
+				<f:selectItems value="#{ghostnetBean.statusValues}" var="status"
+					itemValue="#{status}" itemLabel="#{status.displayName}" />
+			</p:selectOneMenu>
+		    </p:panelGrid>
+			
+		<p:commandButton value="Speichern"
+			action="#{ghostnetBean.saveGhostnet}" 
+			oncomplete="refreshMap(); refreshTable();" 
+			update="form :messages" />
+			
+			 <!-- Remote Command zum Aktualisieren der Karte -->
+    <p:remoteCommand name="refreshMap" actionListener="#{googleMapAPI.loadMarkers}" update="gmap" />
+    		 <!-- Remote Command zum Aktualisieren die Tabellen -->
+    <p:remoteCommand name="refreshTable" actionListener="#{dashboardBean.init}" update="dashboardForm" />
+    
+	</h:form>
+</div>
+
+	<br/>
+	
+	<!-- Kartenbereich -->
+    <div class="map-section">
+
+	<script src="https://maps.google.com/maps/api/js?key=AIzaSyCvCDkYieuUBmMWon_mfLAfjuaeuosuqow&amp;sensor=false"></script>
+
+	<script onload="initMap()" src="resources/js/script.js"></script>
+
+<div class="card">
+    <h:form prependId="false">
+        <p:growl id="growl" showDetail="true"/>
+
+        <p:gmap id="gmap" center="43.890257,9.707417" zoom="4" type="HYBRID"
+                model="#{googleMapAPI.mapModel}" style="width:100%;height:400px" onPointClick="handlePointClick(event);" widgetVar="map">
+            <p:ajax event="overlaySelect" listener="#{googleMapAPI.onMarkerSelect}" update="growl"/>
+        </p:gmap>
+    </h:form>
+</div>
+
+<p:dialog widgetVar="dlg" showEffect="fade">
+    <h:form prependId="false">
+        <h:panelGrid columns="2">
+            <h:outputLabel for="title" value="Title:"/>
+            <p:inputText id="title" value="#{googleMapAPI.title}"/>
+
+            <f:facet name="footer">
+                <p:commandButton value="Add" action="#{googleMapAPI.addMarker}" update=":messages form"
+                                 oncomplete="markerAddComplete()"/>
+                <p:commandButton value="Cancel" onclick="return cancel()"/>
+            </f:facet>
+        </h:panelGrid>
+        <h:inputHidden id="lat" value="#{googleMapAPI.lat}"/>
+        <h:inputHidden id="lng" value="#{googleMapAPI.lng}"/>
+    </h:form>
+</p:dialog>
+
+</div>
+</div>
+    <p:growl id="messages" showDetail="true" autoUpdate="true"/>
+
+</h:body>
+</html>

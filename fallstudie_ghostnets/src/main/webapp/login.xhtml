@@ -1,0 +1,122 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:f="http://xmlns.jcp.org/jsf/core">
+<h:head>
+	    <title>Login Formular</title>
+    <style type="text/css">
+        /* Grundlegende Seitengestaltung */
+        body {
+            font-family: Arial, sans-serif;
+           background-color: #e0f7fa;
+            margin: 0;
+            padding: 20px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+        }
+
+        .login-container { /* Container für das Formular */
+            background-color: white;
+            padding: 30px;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            width: 100%;
+            max-width: 400px;
+        }
+
+        /* Überschrift */
+        .login-title {
+            text-align: center;
+            color: #1a73e8;
+            margin-bottom: 25px;
+            font-size: 24px;
+        }
+
+        /* Eingabefelder */
+        .input-field {
+            width: 100%;
+            padding: 12px;
+            margin: 8px 0;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            box-sizing: border-box;
+        }
+
+        /* Labels */
+        .label {
+            font-weight: bold;
+            color: #333;
+            display: block;
+            margin-bottom: 5px;
+        }
+
+        /* Fehlermeldungen */
+        .error {
+            color: #d93025;
+            font-size: 12px;
+            margin: 4px 0;
+            display: block;
+        }
+
+        /* Button */
+        .submit-button {
+            background-color: #1a73e8;
+            color: white;
+            padding: 12px 20px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            width: 100%;
+            font-size: 16px;
+            margin-top: 20px;
+            transition: background-color 0.3s;
+        }
+
+        .submit-button:hover {
+            background-color: #1557b0;
+        }
+
+        /* Grid Layout */
+        .form-grid {
+            display: grid;
+            gap: 15px;
+        }
+    </style>
+</h:head>
+
+<h:body>
+	<!-- emailValidator und  passwordValidator sind Klassen Validator-->
+	<div class="login-container">
+        <h1 class="login-title">Login</h1>
+        <h:form>
+            <div class="form-grid">
+                <div>
+                    <h:outputLabel styleClass="label" value="Email: " for="email"/>
+                    <h:inputText id="email" value="#{loginBean._email}" 
+                               required="true" styleClass="input-field">
+                        <f:validator validatorId="emailValidator" />
+                    </h:inputText>
+                    <h:message for="email" errorClass="error" />
+                </div>
+
+                <div>
+                    <h:outputLabel styleClass="label" for="passwort" value="Passwort: "/>
+                    <h:inputSecret id="passwort" value="#{loginBean.password}" 
+                                 required="true" styleClass="input-field"> 
+                        <f:validator validatorId="passwordValidator"/>
+                    </h:inputSecret>
+                    <h:message for="passwort" errorClass="error" />
+                </div>
+
+                <h:messages globalOnly="true" styleClass="error" />
+                <h:commandButton value="Anmelden" action="#{loginBean.submit}" 
+                               styleClass="submit-button" />
+            </div>
+        </h:form>
+    </div>
+</h:body>
+</html>

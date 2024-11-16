@@ -1,0 +1,193 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:f="http://xmlns.jcp.org/jsf/core">
+<h:head>
+	<title>Geisternetze melden</title>
+	<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+	<style>
+
+body {
+    background-color: #e0f7fa; 
+    font-family: Arial, sans-serif;
+    color: #333;
+    margin: 0;
+    padding: 0;
+}
+
+h1 {
+    text-align: center;
+    color: #00796b; /* Ein sanftes Grün Farbe */
+    font-size: 1.8rem;
+    margin-top: 20px;
+    font-weight: 600;
+}
+
+p {
+    max-width: 600px;
+    margin: 0 auto;
+    padding: 10px;
+    line-height: 1.6;
+    font-size: 1rem;
+    color: #555;
+}
+
+/* Styling für das Panel-Grid */
+.panelGridCards {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+    margin-top: 30px;
+    flex-wrap: wrap;
+}
+
+
+.ui-panelgrid-cell {
+    background-color: #ffffff;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    border-radius: 8px;
+    padding: 20px;
+    width: 280px;
+    text-align: center;
+    transition: transform 0.3s ease;
+}
+
+.ui-panelgrid-cell:hover {
+    transform: translateY(-5px);
+}
+
+/* Header-Styling für Karten */
+.ui-panelgrid-cell h2 {
+    font-size: 1.4rem;
+    color: #00796b;
+    margin-bottom: 10px;
+}
+
+.ui-panelgrid-cell h3 {
+    font-size: 1rem;
+    color: #009688;
+    margin-top: 5px;
+}
+
+/* Produktbild-Anpassungen */
+.product-image {
+    height: 150px;
+    width: 100%;
+    object-fit: cover;
+    border-radius: 6px;
+    margin-bottom: 15px;
+}
+
+/* Footer und Button Styling */
+.ui-panelgrid-cell p {
+    color: #616161;
+    font-size: 0.95rem;
+    line-height: 1.5;
+    margin-bottom: 20px;
+}
+
+.ui-panelgrid-cell .ui-button {
+    background-color: #00796b;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    padding: 10px 20px;
+    font-size: 0.9rem;
+    font-weight: bold;
+    text-transform: uppercase;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.ui-panelgrid-cell .ui-button:hover {
+    background-color: #004d40;
+}
+
+</style>
+</h:head>
+<h:body>
+	<h1>Helfen Sie uns Geisternetze melden und bergen</h1>
+	<h1>Geisternetzbergungen zum Schutz der marinen Artenvielfalt</h1>
+	<p>Viele Geisternetze treiben unentdeckt in den Meeren und stellen eine erhebliche Gefahr für die Tierwelt dar. </p>
+	<p>Als Geisternetze werden verlorene Fischernetze bezeichnet. Diese
+		Netze können eine Gefahr für Meereslebewesen darstellen. Helfen Sie
+		uns herrenlose Fischernetze zu dokumentieren und zu bergen, um die
+		Gewässer wieder sicherer zu machen.</p>
+	<p>Mit einem neunköpfigen Team ehrenamtlicher Sporttaucher:innen
+		war Bergungsteam im Einsatz, um herrenlose Fischernetze aus der Ostsee
+		zu bergen. Diese Altlasten der Fischerei töten über Jahrzehnte
+		unaufhörlich und unerbittlich weiter: Rund 136.000 Delfine, Wale,
+		Seehunde sowie Millionen an Vögeln, Fischen und Meeresschildkröten
+		fallen den Geisternetzen jährlich weltweit zum Opfer. Aufgabe der
+		aktuellen Bergungsmission war es daher einmal mehr, so viele Netze und
+		Netzteile wie möglich unschädlich zu machen. </p>
+
+	<h:form>
+		<p:panelGrid columns="3" styleClass="panelGridCards">
+			<p:card>
+				<f:facet name="header">
+					<p:graphicImage library="img" name="logo.jpg" styleClass="product-image"/>
+				</f:facet>
+				<f:facet name="title">
+                    Geisternetz melden
+                </f:facet>
+				<f:facet name="subtitle">
+                   Sie bleiben anonym
+                </f:facet>
+				<p>Sie haben ein herrenloses Fischernetz entdeckt und möchten
+					dieses anonym melden?</p>
+				<p>Die meldende Person gibt die GPS-Koordinaten, geschätzte Größe und den Status des Geis-ternetzes an</p>
+
+				<f:facet name="footer">
+					<p:commandButton value="melden" action="fishingnets?faces-redirect=true">
+                      <f:ajax execute="@this" render="@form"/>
+                    </p:commandButton>
+				</f:facet>
+			</p:card>
+			<p:card>
+			    <f:facet name="header">
+					<p:graphicImage library="img" name="handtasche.jpg" styleClass="product-image"/>
+				</f:facet>
+				<f:facet name="title">
+                    Bergung anmelden
+                </f:facet>
+				<f:facet name="subtitle">
+                    Kontaktdaten erforderlich
+                </f:facet>
+				<p>Sie sehen eine Darstellung aller gemeldeten Geisternetze, die
+					noch geborgen werden müssen. Sie können sich verbindlich für die
+					Bergung eines oder mehrerer Netze melden. Dafür wählen Sie einfach
+					die Netze aus und geben Ihren Namen sowie Ihre Telefonnummer an.</p>
+
+				<f:facet name="footer">
+					<p:commandButton value="anmelden" action="signup?faces-redirect=true">
+				    	<f:ajax execute="@this" render="@form"/>
+					</p:commandButton>
+				</f:facet>
+			</p:card>
+			<p:card>
+				<f:facet name="header">
+					<p:graphicImage library="img" name="hasen.png" styleClass="product-image"/>
+				</f:facet>
+				<f:facet name="title">
+                    Bergung planen
+                </f:facet>
+				<f:facet name="subtitle">
+                    Zugriff nur nach angemeldeter Bergung möglich
+                </f:facet>
+				<p>Sie haben die Bergung mindestens eines Netzes angemeldet.
+					Hier können Sie die Bergung abschließen, wenn Sie das Netz geborgen
+					haben. Alternativ sehen Sie eine Übersicht aller noch zu bergenden
+					Netze und können sich ggf. mit anderen Personen abstimmen und die
+					Bergungen umverteilen.</p>
+				<f:facet name="footer">
+					<p:commandButton value="einloggen" action="login?faces-redirect=true">
+						<f:ajax execute="@this" render="@form"/>
+					</p:commandButton>
+				</f:facet>
+			</p:card>
+		</p:panelGrid>
+	</h:form>
+</h:body>
+</html>

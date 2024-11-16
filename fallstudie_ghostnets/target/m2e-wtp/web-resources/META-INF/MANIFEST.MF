@@ -1,0 +1,19 @@
+Manifest-Version: 1.0
+Build-Jdk-Spec: 17
+Class-Path: jakarta.faces-4.0.0-M1.jar jakarta.annotation-api-2.0.0.jar 
+ jakarta.inject-api-2.0.0.jar jakarta.enterprise.cdi-api-3.0.0.jar jakar
+ ta.el-api-4.0.0.jar jakarta.interceptor-api-2.0.0.jar weld-servlet-core
+ -4.0.2.Final.jar weld-environment-common-4.0.2.Final.jar weld-core-impl
+ -4.0.2.Final.jar weld-spi-4.0.SP1.jar weld-api-4.0.SP1.jar weld-probe-c
+ ore-4.0.2.Final.jar weld-jsf-4.0.2.Final.jar weld-web-4.0.2.Final.jar j
+ boss-logging-3.4.2.Final.jar jboss-classfilewriter-1.2.5.Final.jar prim
+ efaces-14.0.0-jakarta.jar mysql-connector-j-8.4.0.jar protobuf-java-3.2
+ 5.1.jar hibernate-core-6.2.24.Final.jar jakarta.persistence-api-3.1.0.j
+ ar jakarta.transaction-api-2.0.1.jar hibernate-commons-annotations-6.0.
+ 6.Final.jar jandex-3.0.5.jar classmate-1.5.1.jar byte-buddy-1.14.7.jar 
+ jakarta.xml.bind-api-4.0.0.jar jakarta.activation-api-2.1.0.jar jaxb-ru
+ ntime-4.0.2.jar jaxb-core-4.0.2.jar angus-activation-2.0.0.jar txw2-4.0
+ .2.jar istack-commons-runtime-4.1.1.jar antlr4-runtime-4.10.1.jar jbcry
+ pt-0.4.jar gson-2.11.0.jar error_prone_annotations-2.27.0.jar
+Created-By: Maven Integration for Eclipse
+

@@ -1,0 +1,68 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
+<h:head>
+	<title>Geisternetze melden</title>
+	<style>
+body {
+    background-color: #e0f7fa; 
+    font-family: Arial, sans-serif;
+    color: #333;
+    margin: 0;
+    padding: 0;
+}
+#infos_panel{
+	margin-left: 11%;
+}
+h1{
+    text-align: center;
+    color: #00796b; /* Ein sanftes Grün Farbe */
+    font-size: 1.8rem;
+    margin-top: 20px;
+    font-weight: 600;
+}
+
+</style>
+</h:head>
+<h:body>
+        <!-- Panel für Benutzerinformationen -->
+    <div id="infos_panel">
+	<h1>Helfen Sie uns Geisternetze melden und bergen</h1>
+	<h:form>
+        <p:outputPanel rendered="#{userSession.isLoggedIn()}" styleClass="user-info-panel">
+            <p:panel header="Benutzerinformationen" style="width:300px;">
+                <h:outputText value="Angemeldet als: " />
+                <h:outputText value="#{userSession.currentUserEmail}" styleClass="user-email" />
+                <p:separator />
+                <p:commandButton value="Abmelden" action="#{userSession.logout}" 
+                                 styleClass="logout-button" update="@form" />
+            </p:panel>
+        </p:outputPanel>
+
+        <!-- Panel für die Anmeldemaske -->
+        <p:outputPanel rendered="#{not userSession.isLoggedIn()}" styleClass="login-form">
+            <h:panelGrid columns="2">
+                <h:outputLabel for="email" value="Email:" />
+                <p:inputText id="email" value="#{loginBean._email}" required="true" />
+
+                <h:outputLabel for="password" value="Passwort:" />
+                <p:password id="password" value="#{loginBean.password}" required="true" />
+
+                <h:commandButton value="Einloggen" action="#{loginBean.submit}" />
+            </h:panelGrid>
+        </p:outputPanel>
+
+        <p:messages autoUpdate="true" />
+    </h:form>
+    </div>
+     <!-- Einbindung der Karte, nur wenn der Benutzer eingeloggt ist -->
+        <ui:include src="/karte.xhtml" />
+    
+     <p:outputPanel rendered="#{userSession.isLoggedIn()}">
+    <ui:include src="/dashboard.xhtml" />
+    </p:outputPanel>
+</h:body>
+</html>

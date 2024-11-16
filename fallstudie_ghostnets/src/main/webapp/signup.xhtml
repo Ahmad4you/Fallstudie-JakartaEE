@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+<h:head>
+    <title>Signup Formular</title>
+    <style type="text/css">
+        /* Grundlegende Seitengestaltung */
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #e0f7fa;
+            margin: 0;
+            padding: 20px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+        }
+
+        .signup-container { /* Container für das Formular */
+            background-color: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+            width: 100%;
+            max-width: 360px;
+        }
+
+        /* Überschriften */
+        .signup-title {
+            text-align: center;
+            color: #1a73e8;
+            margin-bottom: 10px;
+            font-size: 22px;
+            font-weight: bold;
+        }
+
+        .signup-subtitle {
+            font-size: 14px;
+            color: #555;
+            margin-bottom: 20px;
+            line-height: 1.5;
+            text-align: center;
+        }
+
+        /* Eingabefelder */
+        .input-field {
+            width: 100%;
+            padding: 10px;
+            margin: 6px 0;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            box-sizing: border-box;
+            font-size: 14px;
+        }
+
+        /* Labels */
+        .label {
+            font-weight: bold;
+            color: #333;
+            display: block;
+            margin-bottom: 3px;
+            font-size: 14px;
+        }
+
+        /* Fehlermeldungen */
+        .error {
+            color: #d93025;
+            font-size: 12px;
+            margin: 4px 0;
+            display: block;
+        }
+
+        /* Button */
+        .submit-button {
+            background-color: #1a73e8;
+            color: white;
+            padding: 10px 15px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            width: 100%;
+            font-size: 15px;
+            font-weight: bold;
+            margin-top: 15px;
+            transition: background-color 0.3s;
+        }
+
+        .submit-button:hover {
+            background-color: #1557b0;
+        }
+
+        /* Grid Layout */
+        .form-grid {
+            display: grid;
+            gap: 12px;
+        }
+        
+         .info-heading {
+        font-size: 16px;
+        color: #1a73e8;
+        text-align: center;
+        margin-bottom: 15px;
+        padding: 8px;
+        border-left: 4px solid #1a73e8;
+        background-color: #e9f3ff;
+        font-weight: normal;
+        line-height: 1.5;
+    }
+    </style>
+</h:head>
+
+
+<h:body>
+	
+    <div class="signup-container">
+        <h1 class="signup-title">Signup</h1>
+        <h2 class="info-heading">Für anonyme Meldungen bitte keine Telefonnummer angeben.</h2>
+        <h2 class="info-heading">Bergende Personen müssen eine Telefonnummer angeben.</h2>
+        <h:form>
+            <div class="form-grid">
+                <div>
+                    <h:outputLabel styleClass="label" for="vorname" value="Vorname: "/>
+                    <h:inputText id="vorname" value="#{signupBean.benutzer.vorname}" 
+                               required="true" styleClass="input-field"/>
+                    <h:message for="vorname" errorClass="error" />
+                </div>
+
+                <div>
+                    <h:outputLabel styleClass="label" for="nachname" value="Nachname: "/>
+                    <h:inputText id="nachname" value="#{signupBean.benutzer.nachname}" 
+                               required="true" styleClass="input-field"/>
+                    <h:message for="nachname" errorClass="error" />
+                </div>
+
+                <div>
+                    <h:outputLabel styleClass="label" value="Email: " for="email"/>
+                    <h:inputText id="email" value="#{signupBean.benutzer.email}" 
+                               required="true" styleClass="input-field">
+                        <f:validator validatorId="emailValidator" />
+                    </h:inputText>
+                    <h:message for="email" errorClass="error" />
+                </div>
+
+                <div>
+                    <h:outputLabel styleClass="label" for="telefonnr" value="Telefonnummer: "/>
+                    <h:inputText id="telefonnr" value="#{signupBean.benutzer.telefonnr}" styleClass="input-field"/>
+                    <h:message for="telefonnr" errorClass="error" />
+                </div>
+
+                <div>
+                    <h:outputLabel styleClass="label" for="passwort" value="Passwort: "/>
+                    <h:inputSecret id="passwort" value="#{signupBean.benutzer.passwordHash}" 
+                                 required="true" styleClass="input-field">
+                        <f:validator validatorId="passwordValidator"/>
+                    </h:inputSecret>
+                    <h:message for="passwort" errorClass="error" />
+                </div>
+
+                <div>
+                    <h:outputLabel styleClass="label" for="passwortConfirm" value="Passwort bestätigen: "/>
+                    <h:inputSecret id="passwortConfirm" value="#{signupBean.passwortConfirm}" 
+                                 required="true" styleClass="input-field">
+                    </h:inputSecret>
+                    <h:message for="passwortConfirm" errorClass="error" />
+                </div>
+
+                <h:messages globalOnly="true" styleClass="error" />
+                <h:commandButton value="Registrieren" action="#{signupBean.submit}" 
+                               styleClass="submit-button" />
+            </div>
+        </h:form>
+    </div>
+</h:body>
+</html>

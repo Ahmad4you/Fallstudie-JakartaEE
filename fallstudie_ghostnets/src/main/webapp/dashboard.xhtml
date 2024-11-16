@@ -1,0 +1,188 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:f="http://xmlns.jcp.org/jsf/core">
+<h:head>
+    <title>Dashboard</title>
+    <style type="text/css">
+    body {
+    background-color: #e0f7fa; 
+    font-family: Arial, sans-serif;
+    color: #333;
+    margin: 0;
+    padding: 0;
+}
+    /* Container für die Buttons in der Aktionen-Spalte */
+    .action-buttons {
+        display: flex;
+        gap: 8px; /* Abstand zwischen den Buttons */
+        justify-content: center;
+    }
+
+    /* Kleine Aktion-Buttons */
+    .action-button {
+        background-color: #1a73e8;
+        color: white;
+        padding: 4px 8px;
+        font-size: 12px;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+        font-weight: normal;
+        transition: background-color 0.3s ease;
+        min-width: 80px;
+    }
+
+    .action-button:hover {
+        background-color: #1557b0;
+    }
+
+    /* Zentrierung der Buttons in der Aktionen-Spalte */
+    .p-column-header, .action-column {
+        text-align: center;
+        padding: 4px;
+    }
+    .subtitle{
+    text-align: center;
+    color: #00796b; /* Ein sanftes Grün Farbe */
+    font-size: 1.8rem;
+    margin-top: 20px;
+    font-weight: 600;
+    }
+    #dashboardForm{
+    margin: 60px;
+    }
+</style>
+
+</h:head>
+
+
+<h:body>
+	<h:form id="dashboardForm">
+	<h:outputText styleClass="subtitle" value="Übersicht Ihrer Geisternetze"/>
+    <!-- Editierbare Tabelle -->
+    <p:dataTable value="#{dashboardBean.ghostnetsZugeordnet}" var="ghostnet" editable="true" style="width: 100%" editMode="cell" 
+    paginator="true" rows="10" paginatorPosition="bottom">
+        
+        <p:column headerText="Sichtungsdatum">
+            <p:cellEditor>
+                <f:facet name="output">
+                    <h:outputText value="#{ghostnet.sichtungDatum}">
+                        <f:convertDateTime pattern="dd.MM.yyyy"/>
+                    </h:outputText>
+                </f:facet>
+                <f:facet name="input">
+                    <p:calendar value="#{ghostnet.sichtungDatum}" pattern="dd.MM.yyyy"/>
+                </f:facet>
+            </p:cellEditor>
+        </p:column>
+        
+        <p:column headerText="Größe (m²)">
+            <p:cellEditor>
+                <f:facet name="output">
+                    <h:outputText value="#{ghostnet.size}" />
+                </f:facet>
+                <f:facet name="input">
+                    <p:inputText value="#{ghostnet.size}" />
+                </f:facet>
+            </p:cellEditor>
+        </p:column>
+        
+        <p:column headerText="Breite">
+            <p:cellEditor>
+                <f:facet name="output">
+                    <h:outputText value="#{ghostnet.breite}" />
+                </f:facet>
+                <f:facet name="input">
+                    <p:inputText value="#{ghostnet.breite}" />
+                </f:facet>
+            </p:cellEditor>
+        </p:column>
+        
+        <p:column headerText="Länge">
+            <p:cellEditor>
+                <f:facet name="output">
+                    <h:outputText value="#{ghostnet.laenge}" />
+                </f:facet>
+                <f:facet name="input">
+                    <p:inputText value="#{ghostnet.laenge}" />
+                </f:facet>
+            </p:cellEditor>
+        </p:column>
+        
+        <p:column headerText="Status">
+            <p:cellEditor>
+                <f:facet name="output">
+                    <h:outputText value="#{ghostnet.status}" />
+                </f:facet>
+                <f:facet name="input">
+                    <p:selectOneMenu value="#{ghostnet.status}">
+                        <f:selectItem itemLabel="Bitte wählen" itemValue="#{null}" />
+				        <f:selectItems value="#{dashboardBean.statusValues}" var="status"
+					      itemValue="#{status}" itemLabel="#{status.displayName}" />
+                    </p:selectOneMenu>
+                </f:facet>
+            </p:cellEditor>
+        </p:column>
+    </p:dataTable>
+    
+    <!-- Schaltfläche zum Speichern der Änderungen -->
+    <p:commandButton value="Änderungen speichern" action="#{dashboardBean.saveChanges}" update="@form" />
+   
+    <br/>
+    <h:outputText styleClass="subtitle" value="Weitere Geisternetze"/>
+    <p:dataTable value="#{dashboardBean.ghostnets}" var="ghostnet" style="width: 100%" paginator="true" paginatorPosition="bottom" 
+    rows="10">
+    	<p:column headerText="BenutzerTyp" sortBy="#{ghostnet.retriever.benutzerTyp}">
+            <h:outputText value="#{ghostnet.retriever.benutzerTyp}" />
+        </p:column>
+        <p:column headerText="Name" sortBy="#{ghostnet.retriever.nachname}">
+            <h:outputText value="#{ghostnet.retriever.nachname}" />
+        </p:column>
+        <p:column headerText="Vorname" sortBy="#{ghostnet.retriever.vorname}">
+            <h:outputText value="#{ghostnet.retriever.vorname}" />
+        </p:column>
+        <p:column headerText="Rufnummer">
+            <h:outputText value="#{ghostnet.retriever.telefonnr}" />
+        </p:column>
+        <p:column headerText="Sichtungsdatum" sortBy="#{ghostnet.sichtungDatum}">
+            <h:outputText value="#{ghostnet.sichtungDatum}" >
+            	<f:convertDateTime pattern="dd.MM.yyyy"/>
+            </h:outputText>
+        </p:column>
+        <p:column headerText="Größe (m²)">
+            <h:outputText value="#{ghostnet.size}" />
+        </p:column>
+        <p:column headerText="Breite">
+            <h:outputText value="#{ghostnet.breite}" />
+        </p:column>
+        <p:column headerText="Länge">
+            <h:outputText value="#{ghostnet.laenge}" />
+        </p:column>
+        <p:column headerText="Status">
+            <h:outputText value="#{ghostnet.status}" />
+        </p:column>
+        
+         <p:column headerText="Aktionen">
+         <div class="action-buttons">
+           <p:commandButton title="Als Verschollen melden" 
+                         action="#{dashboardBean.markAsVerschollen(ghostnet.id)}" 
+                         update="@form"
+                         styleClass="action-button"
+                         rendered="#{dashboardBean.isLoggedIn and ghostnet.status ne 'VERSCHOLLEN'}" />
+                         
+           <p:commandButton title="Als Geborgen melden" 
+                            action="#{dashboardBean.markAsGeborgen(ghostnet.id)}"
+                            rendered="#{dashboardBean.isLoggedIn and ghostnet.status ne 'GEBORGEN'}"
+                            styleClass="action-button"
+                            update="@form"/>
+          </div>
+        </p:column>
+    
+    </p:dataTable>
+</h:form>
+	
+</h:body>
+</html>
