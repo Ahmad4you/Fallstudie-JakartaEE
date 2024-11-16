@@ -51,7 +51,7 @@ public class GoogleMapAPI implements Serializable {
 	@PostConstruct
 	public void init() {
 		emptyModel = new DefaultMapModel<>();
-		googleMapsApiKey = "AIzaSyDdnyXQqA5q1y9I7uvFtQLVPzDBZq_LFA8";
+		googleMapsApiKey = "zaSyDdnyXQqA5q1y9I7uvFtQLVPzDBZq_LFA8";
 		
 		loadMarkers();
     }
